@@ -38,7 +38,7 @@ VALIDATE $? "Copying MongoDB repo"
 dnf clean all
 dnf makecache
 
-dnf install mongodb-org -y &>>$LOG_FILE
+dnf install -y mongodb-org &>>$LOG_FILE
 VALIDATE $? "Installing mongodb server"
 
 systemctl enable mongod &>>$LOG_FILE
