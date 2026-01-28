@@ -71,3 +71,4 @@ dnf install mongodb-mongosh -y &>>$LOG_FILE
 VALIDATE $? "Installing MongoDB Client"
 
 mongosh --host mongodb.devsec.digital </app/db/master-data.js &>>$LOG_FILE
+VALIDATE $? "loading data in MongoDB"
