@@ -69,6 +69,10 @@ cp $SCRIPT_DIR/catalogue.service /etc/systemd/system/catalogue.service
 VALIDATE $? "Copying catalogue service"
 
 systemctl daemon-reload &>>$LOG_FILE
+
+systemctl unmask catalogue &>>$LOG_FILE
+VALIDATE $? "umasking catalogue service"
+
 systemctl enable catalogue  &>>$LOG_FILE
 systemctl start catalogue
 VALIDATE $? "Starting Catalogue"
