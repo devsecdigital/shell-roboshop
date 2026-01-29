@@ -74,9 +74,7 @@ systemctl unmask catalogue &>>$LOG_FILE
 VALIDATE $? "Unmasking catalogue service"
 
 systemctl enable catalogue &>>$LOG_FILE
-VALIDATE $? "Enabling catalogue service"
-
-systemctl start catalogue &>>$LOG_FILE
+systemctl start catalogue 
 VALIDATE $? "Starting Catalogue"
 
 cp $SCRIPT_DIR/mongo.repo /etc/yum.repos.d/mongo.repo 
