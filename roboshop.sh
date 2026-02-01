@@ -6,17 +6,17 @@ INSTANCES=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "user" "cart" "shipp
 ZONE_ID="Z08032823V1AHCUG1FX80" # replace with your ZONE ID
 DOMAIN_NAME="devsec.digital" # replace with your domain
 
-for instance in ${INSTANCES[@]}
-#for instance in $@
+#for instance in ${INSTANCES[@]}
+for instance in $@
 do
     INSTANCE_ID=$(aws ec2 run-instances --image-id ami-0220d79f3f480ecf5 --instance-type t3.micro --security-group-ids sg-0579bd5e54427c6bd --tag-specifications "ResourceType=instance,Tags=[{Key=Name, Value=$instance}]" --query "Instances[0].InstanceId" --output text)
     if [ $instance != "frontend" ]
     then
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PrivateIpAddress" --output text)
-        #RECORD_NAME="$instance.$DOMAIN_NAME"
+        RECORD_NAME="$instance.$DOMAIN_NAME" # if not it is frontend 
     else
         IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query "Reservations[0].Instances[0].PublicIpAddress" --output text)
-        #RECORD_NAME="$DOMAIN_NAME"
+        RECORD_NAME="$DOMAIN_NAME" # if it is frontend
     fi
     echo "$instance IP address: $IP"
 
@@ -28,7 +28,7 @@ do
       ,"Changes": [{
       "Action"              : "UPSERT"
       ,"ResourceRecordSet"  : {
-         "Name"              : "'$instance'.'$DOMAIN_NAME'"
+         "Name"              : "'$RECORD_NAME'"
          ,"Type"             : "A"
          ,"TTL"              : 1
          , "ResourceRecords"  : [{
